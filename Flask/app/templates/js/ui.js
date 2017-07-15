@@ -1,5 +1,7 @@
 $(document).ready(function(){
     $(":button").css("top", "10px");
+    $("#map").css("transform", "scale(1)");
+    $("#map").css("opacity", "1");
     
     $("#searchbutton").click(function() {
         $(":button").css("top", "-64px");
