@@ -1,9 +1,22 @@
 from app import app
-from flask import render_template, jsonify
+from flask import render_template, jsonify, send_from_directory
 import requests
 import logging
 import json
 import sys
+
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('templates/js', path)
+
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('templates/css', path)
+
+@app.route('/images/<path:path>')
+def send_images(path):
+    return send_from_directory('templates/images', path)
 
 
 @app.route("/")
