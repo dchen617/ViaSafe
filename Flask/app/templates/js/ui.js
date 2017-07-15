@@ -11,15 +11,14 @@ $(document).ready(function(){
 });
 
 $(document).on("keyup", "#searchbar", function(e) {
-     if (e.which == 13) {
+    if (e.which == 13) {
         doSearch();
-     }
-     if (e.which == 27) {
+    }
+    if (e.which == 27) {
         closeSearch();
         $("#searchbar").blur();
     }
 });
-
 
 function closeSearch() {
     jQuery(function($) {
@@ -31,3 +30,17 @@ function closeSearch() {
 function doSearch() {
     alert($("#searchbar").val())
 }
+
+$(document).on("keydown", function(e) {
+    if (e.shiftKey == true) {
+        $(":button").css("transition", "all 2.5s");
+        $("#searchbar").css("transition", "all 2.5s");
+    }
+});
+
+$(document).on("keyup", function(e) {
+    if (e.which == 16) {
+        $(":button").css("transition", "all 0.5s");
+        $("#searchbar").css("transition", "all 0.5s");
+    }
+});

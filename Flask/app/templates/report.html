@@ -67,7 +67,22 @@ google.maps.event.addDomListener(window, 'load', getLocation);
 				<textarea class="form-control" id="description" rows="5" placeholder="Description" required=""></textarea>
 			</div>
 		</div>
-		
+		<form action="" class="col-sm-3 text-center">
+			<input id="curLoc" type="checkbox" name="curLoc" value="Yes" checked>Use Current Location
+			<script>
+			$('input:checkbox').change(function(){
+				if(document.getElementById('curLoc').checked === false){
+					console.log("not checked.");
+					document.getElementById('addressForm').setAttribute('style', 'display:run-in');
+					document.getElementById('map_canvas').setAttribute('style', 'display:none');
+				}
+				else{
+					document.getElementById('addressForm').setAttribute('style', 'display:none');
+					document.getElementById('map_canvas').setAttribute('style', 'display:run-in');
+				}
+			})
+			</script>
+		</form>
 		<div class="form-group" style="display: none" id="addressForm">
 			<div class="form-group row">
 				<label for="street" class="col-sm-2 col-form-label text-center">Address</label>
@@ -336,22 +351,6 @@ google.maps.event.addDomListener(window, 'load', getLocation);
 	    	</div>
 	    </div>
 	    <!-- end of addressForm -->
-		<form action="" class="col-sm-3 text-center">
-			<input id="curLoc" type="checkbox" name="curLoc" value="Yes" checked>Use Current Location
-			<script>
-			$('input:checkbox').change(function(){
-				if(document.getElementById('curLoc').checked === false){
-					console.log("not checked.");
-					document.getElementById('addressForm').setAttribute('style', 'display:run-in');
-					document.getElementById('map_canvas').setAttribute('style', 'display:none');
-				}
-				else{
-					document.getElementById('addressForm').setAttribute('style', 'display:none');
-					document.getElementById('map_canvas').setAttribute('style', 'display:run-in');
-				}
-			})
-			</script>
-		</form>
 	</div>
 <div id="map_canvas" data-role="page"></div>
 </body>
