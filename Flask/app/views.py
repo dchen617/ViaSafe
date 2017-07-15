@@ -11,6 +11,9 @@ def main():
 
     return render_template('index.html')
 
+@app.route("/submit")
+def getForm():
+	return render_template('report.html')
 
 @app.route("/test", methods=['POST', 'GET'])
 def locationParse():
@@ -42,8 +45,8 @@ def locationParse():
             state = data['results'][0]['address_components'][5]['long_name']
             country = data['results'][0]['address_components'][6]['long_name']
 
-            print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
-                  city + ' ' + state + ' ' + country, file=sys.stderr)
+            # print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
+            #       city + ' ' + state + ' ' + country, file=sys.stderr)
         else:
             return ('Please enter a vaild Address')
 
@@ -70,8 +73,8 @@ def locationParse():
             country = data['results'][0]['address_components'][6]['long_name']
 
             #print(respone.status_code, file=sys.stderr)
-            print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
-                  city + ' ' + state + ' ' + country, file=sys.stderr)
+            # print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
+            #       city + ' ' + state + ' ' + country, file=sys.stderr)
         else:
             return ('Please enter a vaild Address')
 
