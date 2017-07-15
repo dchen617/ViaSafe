@@ -17,6 +17,14 @@ CREATE TABLE cities (
   FOREIGN KEY (stateid) REFERENCES states(stateid) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE users (
+  userid int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  username varchar(20),
+  passwordhash varchar(1000),
+  email varchar(100),
+  token varchar(1000)
+);
+
 CREATE TABLE locations (
   locationid int NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title varchar(100) NOT NULL,
@@ -31,4 +39,5 @@ CREATE TABLE locations (
   FOREIGN KEY (countryid) REFERENCES countries(countryid) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (stateid) REFERENCES states(stateid) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (cityid) REFERENCES cities(cityid) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (userid) REFERENCES users(userid) ON DELETE CASCADE ON UPDATE CASCADE
 );
