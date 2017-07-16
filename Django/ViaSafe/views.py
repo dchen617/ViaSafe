@@ -62,15 +62,15 @@ def locationParse(request):
                 print(googleCit04)
                 locationlist = []
 
-                if(address == googleCit01 or address == googleCit02 or address == googleCit03 or address == googleCit04):  # It is just a city
+                if(address.lower() == googleCit01.lower() or address.lower() == googleCit02.lower() or address.lower() == googleCit03.lower() or address.lower() == googleCit04.lower()):  # It is just a city
                     try:
                         print('in city')
                         city = data['results'][0]['address_components'][0]['long_name']
                         state = data['results'][0]['address_components'][2]['long_name']
                         country = data['results'][0]['address_components'][3]['long_name']
-                        locationlist.append(city);
-                        locationlist.append(state);
-                        locationlist.append(country);
+                        locationlist.append(city)
+                        locationlist.append(state)
+                        locationlist.append(country)
                     except Exception as e:
                         print(e)
                 else:
@@ -79,17 +79,17 @@ def locationParse(request):
                         city = data['results'][0]['address_components'][2]['long_name']
                         state = data['results'][0]['address_components'][5]['long_name']
                         country = data['results'][0]['address_components'][6]['long_name']
-                        locationlist.append(city);
-                        locationlist.append(state);
-                        locationlist.append(country);
+                        locationlist.append(city)
+                        locationlist.append(state)
+                        locationlist.append(country)
                     except Exception as e:
                         print(e)
 
                     # print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
                     # city + ' ' + state + ' ' + country)
-                country= locationlist[2]
-                state=locationlist[1]
-                city=locationlist[0]
+                country = locationlist[2]
+                state = locationlist[1]
+                city = locationlist[0]
                 locationlist.append(lng)
                 locationlist.append(lat)
                 try:
@@ -107,7 +107,7 @@ def locationParse(request):
                     else:
                         state = States.objects.get(countryid=country, statename=state)
 
-                    if(not Cities.objects.filter(cityname=city, stateid=state).exist()):
+                    if(not Cities.objects.filter(cityname=city, stateid=state).exists()):
                         cityObj = Cities(cityname=city, stateid=state)
                         cityObj.save()
                         city = cityObj
@@ -119,7 +119,7 @@ def locationParse(request):
                     print(e)
                     return HttpResponse('error')
 
-                print (locationlist)
+                print(locationlist)
                 return getAll(request, locationlist)
 
             # Return 400 if it couldn't parse the data
@@ -171,7 +171,7 @@ def locationParse(request):
                         else:
                             state = States.objects.get(countryid=country, statename=state)
 
-                        if(not Cities.objects.filter(cityname=city, stateid=state).exist()):
+                        if(not Cities.objects.filter(cityname=city, stateid=state).exists()):
                             cityObj = Cities(cityname=city, stateid=state)
                             cityObj.save()
                             city = cityObj
@@ -255,14 +255,15 @@ def getAll(request, locationlist):
     y = locationlist[1]
     z = locationlist[0]
 
-    country = Countries.objects.get(countryname = x)
-    state = States.objects.get(statename = y, countryid = country.countryid)
-    city = Cities.objects.get(cityname = z, stateid = state.stateid)
-    location = Locations.objects.filter(cityid = city.cityid, stateid = state.stateid, countryid = country.countryid)
+    country = Countries.objects.get(countryname=x)
+    state = States.objects.get(statename=y, countryid=country.countryid)
+    city = Cities.objects.get(cityname=z, stateid=state.stateid)
+    location = Locations.objects.filter(
+        cityid=city.cityid, stateid=state.stateid, countryid=country.countryid)
     movemap = json.dumps({'lng': locationlist[3], 'lat': locationlist[4]})
-    mydict = {"key":location, "movemap":movemap}
+    mydict = {"key": location, "movemap": movemap}
 
-    print (locationlist)
+    print(locationlist)
     print(location)
 
-    return render(request,'index.html', mydict)
+    return render(request, 'index.html', mydict)
