@@ -20,6 +20,7 @@ from ViaSafe import views, register
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index', views.locationParse),
+    url(r'^get', views.getAll),
     url(r'^register', views.register),
     url(r'^test', views.getAll),
 ]

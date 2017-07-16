@@ -1,8 +1,12 @@
+var greenMarker;
+var redMarker;
+
 var Marlborough = {lat: 42.332776, lng: -71.589868};
 var map;
 var marker;
 
 var incidentMarkers = [];
+var heatMapData = [];
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -128,10 +132,39 @@ function initMap() {
   }
 ]
   });
+
+
+  var heatmapGradient = [
+    'rgba(255, 255, 255, 0)',
+    '#468966',
+    '#FFF0A5',
+    '#FFB03B',
+    '#D9572D',
+    '#FF4800',
+
+  ]
+
+  var heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatMapData,
+    radius: 20,
+    gradient: heatmapGradient
+  });
+  heatmap.setMap(map);
   // var marker = new google.maps.Marker({
   //   position: uluru,
   //   map: map
   // });
+
+  greenMarker = {
+    url: "../static/images/pin1.png",
+    scaledSize: new google.maps.Size(36, 36)
+  };
+
+  redMarker = {
+    url: "../static/images/pin2.png",
+    scaledSize: new google.maps.Size(36, 36)
+  };
+
   addAllIncidents();
 }
 
@@ -140,6 +173,7 @@ function addMarker() {
     position: map.getCenter(),
     draggable: true,
     animation: google.maps.Animation.DROP,
+    icon: greenMarker,
     map: map
   });
 }
@@ -167,7 +201,7 @@ function addIncident(title, description, lng, lat) {
 
   var tmpMarker = new google.maps.Marker({
     position: {lat: parseFloat(lat), lng: parseFloat(lng)},
-    draggable: true,
+    icon: redMarker,
     map: map
   });
 
@@ -175,5 +209,18 @@ function addIncident(title, description, lng, lat) {
     tmpInfo.open(map, tmpMarker);
   });
 
-  incidentMarkers.append(tmpMarker);
+  incidentMarkers.push(tmpMarker);
+  heatMapData.push(new google.maps.LatLng(parseFloat(lat), parseFloat(lng)));
+}
+
+
+function addAllIncidents() {
+    $.post("/get",
+            {},
+            function (data, status) {
+                for (var i = 0; i < data.length; i++) {
+                  addIncident(data[i].title, data[i].description, data[i].lng, data[i].lat);
+                }
+            }
+        );
 }

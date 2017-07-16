@@ -51,25 +51,30 @@ def locationParse(request):
 
                     # print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
                     # city + ' ' + state + ' ' + country)
-                return getAll(request, lng, lat)
+                # return getAll(request)
             # Return 400 if it couldn't parse the data
             context = {
                 'status': '400', 'reason': 'could not find the address'
             }
             response = HttpResponse(json.dumps(context), content_type='application/json')
             response.status_code = 400
-            return response
+            # return response
+            return HttpResponse(json.dumps({'lng': lng, 'lat': lat}), content_type="application/json")
             # return render(request, 'index.html')
 
         # if we get it from the go location
         else:
+            print("BBBLLLLLAAAAAAAAAHHHHHHHHHHHHHHHHHHHHH")
             # https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap
             http = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='
             key = '&key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap'
             lat = request.POST.get('lat')
             lng = request.POST.get('lng')
+            title = request.POST.get('title')
+            description = request.POST.get('description')
             ourReq = http + str(lat) + ',' + str(lng) + key
 
+            print(ourReq)
             respone = urlopen(ourReq)
             data = json.loads(respone.read().decode('utf8'))
             status = data['status']
@@ -83,8 +88,8 @@ def locationParse(request):
                     city = data['results'][0]['address_components'][2]['long_name']
                     state = data['results'][0]['address_components'][5]['long_name']
                     country = data['results'][0]['address_components'][6]['long_name']
-                    title = request.POST.get('title')
-                    description = request.POST.get('description')
+                    
+                    
 
                     try:
                         if(not Countries.objects.filter(countryname=country).exists()):
@@ -101,19 +106,24 @@ def locationParse(request):
                         else:
                             state = States.objects.get(countryid=country, statename=state)
 
-                        if(not Cities.objects.filter(cityname=city, stateid=state).exist()):
+                        if(not Cities.objects.filter(cityname=city, stateid=state).exists()):
                             cityObj = Cities(cityname=city, stateid=state)
                             cityObj.save()
                             city = cityObj
                         else:
                             city = Cities.objects.get(stateid=state, cityname=city)
 
-                        locaiton = Locations(title=title, description=description,
+                        user = Users.objects.get(userid=1)
+
+
+
+
+                        location = Locations(title=title, description=description,
                                              longitude=float(lng), latitude=float(lat), address=street, countryid=country,
-                                             stateid=state, cityid=city)
+                                             stateid=state, cityid=city, userid=user)
 
                         # TODO link ot a userid
-                        locaiotn.save()
+                        location.save()
                     except Exception as e:
                         print(e)
                         return HttpResponse('unable to save location')
@@ -122,8 +132,8 @@ def locationParse(request):
                     print(e)
 
                     # print(respone.status_code, file=sys.stderr)
-                print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
-                      city + ' ' + state + ' ' + country)
+                print(str(lng) + ' ' + str(lat) + ' ' + str(street) + ' ' +
+                      str(city) + ' ' + str(state) + ' ' + str(country))
             else:
                 return ('Please enter a vaild Address')
     else:
@@ -179,7 +189,7 @@ def login(request):
 
 #send all locations to front end
 @csrf_exempt
-def getAll(request, lng, lat):
+def getAll(request):
     # c = Locations.objects.all()
     # d2 = {"locations":c}
     # x = 'USA'
@@ -197,6 +207,9 @@ def getAll(request, lng, lat):
     for place in location:
         thing = {'lat': str(place.latitude), 'lng': str(place.longitude), 'title': str(place.title), 'description': str(place.description)}
         markers.append(thing)
+
+    print(markers);
+    print("asdfsadfasdfasdf")
 
     markers = json.dumps(markers, ensure_ascii=False)
 

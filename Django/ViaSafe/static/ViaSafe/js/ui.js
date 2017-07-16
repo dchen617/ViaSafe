@@ -108,7 +108,6 @@ function doLogin() {
 
 function doSubmit() {
     markerLocation = getMarker();
-
     $.post("/index",
             {'title': $("#title").val(), 'description': $("#description").val(),
             'lat': markerLocation.lat(), 'lng': markerLocation.lng()},
