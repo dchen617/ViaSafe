@@ -6,6 +6,8 @@ import requests
 import logging
 import json
 import sys
+from urllib.request import urlopen
+
 
 
 #@app.route("/test", methods=['POST', 'GET'])
@@ -26,23 +28,22 @@ def locationParse(request):
         address = address.replace(' ', '+')
         ourReq = http + address + key
 
-        respone = requests.get(ourReq)
-        data = respone.content
-        data = json.loads(data)
-        status = data['status']
+        respone = urlopen(ourReq).read().decode('utf8')        
+        data = json.loads(respone)
+        # status = data['status']
 
-        if(respone.status_code == 200 and status == 'OK'):
-            lng = data['results'][0]['geometry']['location']['lng']
-            lat = data['results'][0]['geometry']['location']['lat']
-            street = data['results'][0]['formatted_address']
-            city = data['results'][0]['address_components'][2]['long_name']
-            state = data['results'][0]['address_components'][5]['long_name']
-            country = data['results'][0]['address_components'][6]['long_name']
+        # if(respone.status_code == 200 and status == 'OK'):
+        #     lng = data['results'][0]['geometry']['location']['lng']
+        #     lat = data['results'][0]['geometry']['location']['lat']
+        #     street = data['results'][0]['formatted_address']
+        #     city = data['results'][0]['address_components'][2]['long_name']
+        #     state = data['results'][0]['address_components'][5]['long_name']
+        #     country = data['results'][0]['address_components'][6]['long_name']
 
-            print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
-                  city + ' ' + state + ' ' + country)
-        else:
-            return ('Please enter a vaild Address')
+        #     print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
+        #           city + ' ' + state + ' ' + country)
+        # else:
+        #     return ('Please enter a vaild Address')
 
     # if we get it from the go location
     else:
@@ -53,23 +54,22 @@ def locationParse(request):
         lng = -78.8281028  # TODO get value from frontend
         ourReq = http + str(lat) + ',' + str(lng) + key
 
-        respone = requests.get(ourReq)
-        data = respone.content
-        data = json.loads(data)
-        status = data['status']
+        respone = urlopen(ourReq).read().decode('utf8')        
+        data = json.loads(respone)
+        # status = data['status']
 
-        if(respone.status_code == 200 and status == 'OK'):
-            lng = data['results'][0]['geometry']['location']['lng']
-            lat = data['results'][0]['geometry']['location']['lat']
-            street = data['results'][0]['formatted_address']
-            city = data['results'][0]['address_components'][2]['long_name']
-            state = data['results'][0]['address_components'][5]['long_name']
-            country = data['results'][0]['address_components'][6]['long_name']
+        # if(respone.status_code == 200 and status == 'OK'):
+        #     lng = data['results'][0]['geometry']['location']['lng']
+        #     lat = data['results'][0]['geometry']['location']['lat']
+        #     street = data['results'][0]['formatted_address']
+        #     city = data['results'][0]['address_components'][2]['long_name']
+        #     state = data['results'][0]['address_components'][5]['long_name']
+        #     country = data['results'][0]['address_components'][6]['long_name']
 
-            #print(respone.status_code, file=sys.stderr)
-            print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
-                  city + ' ' + state + ' ' + country)
-        else:
-            return ('Please enter a vaild Address')
+        #     #print(respone.status_code, file=sys.stderr)
+        #     print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
+        #           city + ' ' + state + ' ' + country)
+        # else:
+        #     return ('Please enter a vaild Address')
 
     return render(request,'index.html')
