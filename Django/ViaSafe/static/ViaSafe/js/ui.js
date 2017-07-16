@@ -18,6 +18,24 @@ $(document).ready(function(){
             $(".navbutton").css("top", "-64px");
             $("#reportscreen").css("top", "10px");
             $("#title").select();
+            function getLocation() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(showPosition);
+                } else {
+                    alert("Geolocation is not supported by this browser.");
+                }
+            }
+            function showPosition(position) {
+                console.log(position.coords.latitude);
+                console.log(position.coords.longitude);
+                $.post("http://127.0.0.1:8000/index",
+                        {'lat' : position.coords.latitude, 'lng': position.coords.longitude},
+                        function(data, status){
+                            alert("Status: " + status);
+                        }
+                    );
+            }
+            getLocation();
             addMarker();
         }
     });
@@ -68,13 +86,14 @@ function closeAll() {
 
 function doSearch() {
     data = document.getElementById('searchbar').value
-    console.log(data);
-    // $.post("http://127.0.0.1:8000/index",
-    //         {'address' : data},
-    //         function(data, status){
-    //             alert("Data: " + data + "\nStatus: " + status);
-    //         }
-    //     )
+    $.post("http://127.0.0.1:8000/index",
+            {'address' : data, 'area': 'bar'},
+            function(data, status){
+                alert("Status: " + status);
+            }
+        );
+        console.log(data);
+
 
 
 }

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.defaulttags import csrf_token
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 import requests
@@ -10,24 +11,18 @@ import sys
 from urllib.request import urlopen
 
 
-#@app.route("/test", methods=['POST', 'GET'])
+@csrf_exempt
 def locationParse(request):
     # https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap
 
-    var = True
-    print('TEZT')
-
     if request.method == 'POST':
-            # if we got it from the form do the below
-        if(var):
+        if(request.POST.get('area') is not None):
             # Get data from the front end as an address
             http = 'https://maps.googleapis.com/maps/api/geocode/json?address='
             key = '&key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap'
             address = request.POST.get('address')  # TODO get value from frontend
             print(address)
-            #address = address.replace(' ', '+')
-            if address is None:
-                return ('Fail')
+            address = address.replace(' ', '+')
             ourReq = http + address + key
 
             respone = urlopen(ourReq)
@@ -46,18 +41,15 @@ def locationParse(request):
                 print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
                       city + ' ' + state + ' ' + country)
 
-                return render(request, 'index.html')
-
-            else:
-                return render(request, 'index.html')
+            return render(request, 'index.html')
 
         # if we get it from the go location
         else:
             # https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap
             http = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='
             key = '&key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap'
-            lat = 35.9597944  # TODO get value from frontend
-            lng = -78.8281028  # TODO get value from frontend
+            lat = request.POST.get('lat')
+            lng = request.POST.get('lng')
             ourReq = http + str(lat) + ',' + str(lng) + key
 
             respone = urlopen(ourReq)
