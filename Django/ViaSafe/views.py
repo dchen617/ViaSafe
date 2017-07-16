@@ -47,6 +47,7 @@ def locationParse(request):
 
                     # TODO LINK WITH USER AND SAVE IN THE Database
                 except Exception as e:
+                    print(e)
 
                     # print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
                     # city + ' ' + state + ' ' + country)
@@ -83,11 +84,45 @@ def locationParse(request):
                     city = data['results'][0]['address_components'][2]['long_name']
                     state = data['results'][0]['address_components'][5]['long_name']
                     country = data['results'][0]['address_components'][6]['long_name']
+                    title = request.POST.get('title')
+                    description = request.POST.get('description')
 
-                    # TODO save in the backned
-                except Exception as e
+                    try:
+                        if(not Countries.objects.filter(countryname=country).exists()):
+                            countryObj = Countries(countryname=country)
+                            countryObj.save()
+                            country = countryObj
+                        else:
+                            country = Countries.objects.get(countryname=country)
 
-                # print(respone.status_code, file=sys.stderr)
+                        if(not States.objects.filter(countryid=country, statename=state).exists()):
+                            stateObj = States(countryid=country, statename=state)
+                            stateObj.save()
+                            state = stateObj
+                        else:
+                            state = States.objects.get(countryid=country, statename=state)
+
+                        if(not Cities.objects.filter(cityname=city, stateid=state).exist()):
+                            cityObj = Cities(cityname=city, stateid=state)
+                            cityObj.save()
+                            city = cityObj
+                        else:
+                            city = Cities.objects.get(stateid=state, cityname=city)
+
+                        locaiton = Locations(title=title, description=description,
+                                             longitude=float(lng), latitude=float(lat), address=street, countryid=country,
+                                             stateid=state, cityid=city)
+
+                        # TODO link ot a userid
+                        locaiotn.save()
+                    except Exception as e:
+                        print(e)
+                        return HttpResponse('unable to save location')
+
+                except Exception as e:
+                    print(e)
+
+                    # print(respone.status_code, file=sys.stderr)
                 print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
                       city + ' ' + state + ' ' + country)
             else:

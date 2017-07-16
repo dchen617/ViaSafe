@@ -20,9 +20,6 @@ from ViaSafe import views, register
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index', views.locationParse),
-<<<<<<< HEAD
     url(r'^register', views.register),
-=======
     url(r'^test', views.getAll),
->>>>>>> e8914f49cdd35571c74babd22e739ce03ee41f74
 ]
