@@ -63,18 +63,21 @@ function closeAll() {
         $("#reportscreen").css("top", "-320px");
         $(".actionbutton").blur();
     });
-    deleteMarker();
+    try {
+        deleteMarker();
+    } catch (err) {
+    }
 }
 
 function doSearch() {
     data = document.getElementById('searchbar').value
     console.log(data);
-    // $.post("http://127.0.0.1:8000/index",
-    //         {'address' : data},
-    //         function(data, status){
-    //             alert("Data: " + data + "\nStatus: " + status);
-    //         }
-    //     )
+    $.post("/index",
+            {'address' : data},
+            function(data, status){
+                alert("Data: " + data + "\nStatus: " + status);
+            }
+        )
 
 
 }

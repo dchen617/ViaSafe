@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.defaulttags import csrf_token
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 import requests
@@ -11,6 +12,7 @@ from urllib.request import urlopen
 
 
 #@app.route("/test", methods=['POST', 'GET'])
+@csrf_exempt
 def locationParse(request):
     # https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap
 
