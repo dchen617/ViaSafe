@@ -1,0 +1,6 @@
+[client]
+database = ViaSafe
+host = localhost
+user = root
+password = 
+default-character-set = utf8
