@@ -85,7 +85,7 @@ $(document).on("keydown", function(e) {
     if (e.shiftKey == true) {
         $(".navbutton").css("transition", "all 2.5s");
         $("#searchbar").css("transition", "all 2.5s");
-        $("#loginscreen").css("transition", "all 2.5s");
+        $(".screen").css("transition", "all 2.5s");
     }
 });
 
@@ -93,6 +93,6 @@ $(document).on("keyup", function(e) {
     if (e.which == 16) {
         $(".navbutton").css("transition", "all 0.5s");
         $("#searchbar").css("transition", "all 0.5s");
-        $("#loginscreen").css("transition", "all 0.5s");
+        $(".screen").css("transition", "all 0.5s");
     }
 });
