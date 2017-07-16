@@ -16,7 +16,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AuthGroup',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=80, unique=True)),
             ],
             options={
@@ -27,7 +28,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AuthGroupPermissions',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
             ],
             options={
                 'db_table': 'auth_group_permissions',
@@ -37,7 +39,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AuthPermission',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
                 ('codename', models.CharField(max_length=100)),
             ],
@@ -49,7 +52,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AuthUser',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('password', models.CharField(max_length=128)),
                 ('last_login', models.DateTimeField(blank=True, null=True)),
                 ('is_superuser', models.IntegerField()),
@@ -69,7 +73,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AuthUserGroups',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
             ],
             options={
                 'db_table': 'auth_user_groups',
@@ -79,7 +84,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='AuthUserUserPermissions',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
             ],
             options={
                 'db_table': 'auth_user_user_permissions',
@@ -111,7 +117,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DjangoAdminLog',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('action_time', models.DateTimeField()),
                 ('object_id', models.TextField(blank=True, null=True)),
                 ('object_repr', models.CharField(max_length=200)),
@@ -126,7 +133,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DjangoContentType',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('app_label', models.CharField(max_length=100)),
                 ('model', models.CharField(max_length=100)),
             ],
@@ -138,7 +146,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DjangoMigrations',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True,
+                                        primary_key=True, serialize=False, verbose_name='ID')),
                 ('app', models.CharField(max_length=255)),
                 ('name', models.CharField(max_length=255)),
                 ('applied', models.DateTimeField()),

@@ -11,6 +11,7 @@ import sys
 from urllib.request import urlopen
 
 
+#@app.route("/test", methods=['POST', 'GET'])
 @csrf_exempt
 def locationParse(request):
     # https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap
