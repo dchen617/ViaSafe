@@ -27,7 +27,6 @@ def locationParse(request):
             http = 'https://maps.googleapis.com/maps/api/geocode/json?address='
             key = '&key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap'
             address = request.POST.get('address')  # TODO get value from frontend
-            print(address)
             address = address.replace(' ', '+')
             ourReq = http + address + key
 
@@ -39,15 +38,45 @@ def locationParse(request):
             if(respone.getcode() == 200 and status == 'OK'):
                 lng = data['results'][0]['geometry']['location']['lng']
                 lat = data['results'][0]['geometry']['location']['lat']
-                try:
-                    street = data['results'][0]['formatted_address']
-                    city = data['results'][0]['address_components'][2]['long_name']
-                    state = data['results'][0]['address_components'][5]['long_name']
-                    country = data['results'][0]['address_components'][6]['long_name']
+                address = address.replace('+', ' ')
+                print(address)
 
-                    # TODO LINK WITH USER AND SAVE IN THE Database
-                except Exception as e:
-                    print(e)
+                googleCit01 = data['results'][0]['address_components'][0]['long_name'] + ' ' + \
+                    data['results'][0]['address_components'][2]['long_name']
+                print(googleCit01)
+
+                googleCit02 = data['results'][0]['address_components'][0]['long_name'] + \
+                    ', ' + data['results'][0]['address_components'][2]['long_name']
+                print(googleCit02)
+
+                googleCit03 = data['results'][0]['address_components'][0]['long_name'] + \
+                    ', ' + data['results'][0]['address_components'][2]['short_name']
+                print(googleCit03)
+
+                googleCit04 = data['results'][0]['address_components'][0]['long_name'] + ' ' + \
+                    data['results'][0]['address_components'][2]['short_name']
+                print(googleCit04)
+
+                googleCit04 = data['results'][0]['address_components'][0]['long_name'] + ' ' + \
+                    data['results'][0]['address_components'][2]['short_name']
+                print(googleCit04)
+
+                if(address == googleCit01 or address == googleCit02 or address == googleCit03 or address == googleCit04):  # It is just a city
+                    try:
+                        print('in city')
+                        city = data['results'][0]['address_components'][0]['long_name']
+                        state = data['results'][0]['address_components'][2]['long_name']
+                        country = data['results'][0]['address_components'][3]['long_name']
+                    except Exception as e:
+                        print(e)
+                else:
+                    try:  # if we get a street addres
+                        street = data['results'][0]['formatted_address']
+                        city = data['results'][0]['address_components'][2]['long_name']
+                        state = data['results'][0]['address_components'][5]['long_name']
+                        country = data['results'][0]['address_components'][6]['long_name']
+                    except Exception as e:
+                        print(e)
 
                     # print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
                     # city + ' ' + state + ' ' + country)
