@@ -6,6 +6,7 @@ var map;
 var marker;
 
 var incidentMarkers = [];
+var heatMapData = [];
 
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
@@ -131,6 +132,24 @@ function initMap() {
   }
 ]
   });
+
+
+  var heatmapGradient = [
+    'rgba(255, 255, 255, 0)',
+    '#468966',
+    '#FFF0A5',
+    '#FFB03B',
+    '#D9572D',
+    '#FF4800',
+
+  ]
+
+  var heatmap = new google.maps.visualization.HeatmapLayer({
+    data: heatMapData,
+    radius: 20,
+    gradient: heatmapGradient
+  });
+  heatmap.setMap(map);
   // var marker = new google.maps.Marker({
   //   position: uluru,
   //   map: map
@@ -138,12 +157,12 @@ function initMap() {
 
   greenMarker = {
     url: "../static/images/pin1.png",
-    scaledSize: new google.maps.Size(48, 48)
+    scaledSize: new google.maps.Size(36, 36)
   };
 
   redMarker = {
     url: "../static/images/pin2.png",
-    scaledSize: new google.maps.Size(48, 48)
+    scaledSize: new google.maps.Size(36, 36)
   };
 
   addAllIncidents();
@@ -191,5 +210,6 @@ function addIncident(title, description, lng, lat) {
     tmpInfo.open(map, tmpMarker);
   });
 
-  // incidentMarkers.append(tmpMarker);
+  incidentMarkers.push(tmpMarker);
+  heatMapData.push(new google.maps.LatLng(parseFloat(lat), parseFloat(lng)));
 }
