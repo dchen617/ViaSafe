@@ -87,7 +87,11 @@ def getAll(request):
 
     country = Countries.objects.get(countryname = x)
     state = States.objects.get(statename = y, countryid = country.countryid)
-    city = Cities.objects.get(city = z, stateid = state.stateid)
-    location = locations.objects.get(cityid = city.cityid, stateid = state.stateid, countryid = country.countryid)
+    city = Cities.objects.get(cityname = z, stateid = state.stateid)
+    location = Locations.objects.get(cityid = city.cityid, stateid = state.stateid, countryid = country.countryid)
 
-    return render(request,'test.html', location)
+    d = {"d": location}
+
+    print(location.title)
+    print(location.description)
+    return render(request,'test.html', d)
