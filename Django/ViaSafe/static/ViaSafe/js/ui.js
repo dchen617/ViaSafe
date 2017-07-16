@@ -95,8 +95,10 @@ function doSearch() {
     $.post("/index",
             {'address' : data, 'area': 'bar'},
             function(data, status){
-                moveMap(data.lng, data.lat, 12);
-                closeAll();
+                // console.log(data);
+                // moveMap(data.lng, data.lat, 12);
+                // closeAll();
+                location.reload();
             }
         );
 }
