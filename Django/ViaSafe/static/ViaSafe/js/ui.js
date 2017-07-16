@@ -18,6 +18,7 @@ $(document).ready(function(){
             $(".navbutton").css("top", "-64px");
             $("#reportscreen").css("top", "10px");
             $("#title").select();
+            addMarker();
         }
     });
 });
@@ -62,6 +63,7 @@ function closeAll() {
         $("#reportscreen").css("top", "-320px");
         $(".actionbutton").blur();
     });
+    deleteMarker();
 }
 
 function doSearch() {
@@ -75,6 +77,7 @@ function doLogin() {
 
 function doSubmit() {
     alert($("#title").val());
+    alert(getMarker());
     closeAll();
 }
 
