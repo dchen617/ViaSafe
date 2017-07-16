@@ -77,6 +77,6 @@ def locationParse(request):
 
 
 @csrf_exempt
-def getAll():
+def getAll(request):
     c = Countries.object.all()
     return render(request,'test.html', c)
