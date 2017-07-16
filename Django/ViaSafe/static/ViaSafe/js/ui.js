@@ -10,7 +10,7 @@ $(document).ready(function(){
     });
 
     $("#markbutton").click(function() {
-        if (true) { // TODO: CHANGE THIS TO CHECK IF LOGGED IN
+        if (false) { // TODO: CHANGE THIS TO CHECK IF LOGGED IN
             $(".navbutton").css("top", "-64px");
             $("#loginscreen").css("top", "10px");
             $("#username").select();

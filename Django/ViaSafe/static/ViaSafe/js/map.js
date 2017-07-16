@@ -1,3 +1,6 @@
+var greenMarker;
+var redMarker;
+
 var Marlborough = {lat: 42.332776, lng: -71.589868};
 var map;
 var marker;
@@ -132,6 +135,17 @@ function initMap() {
   //   position: uluru,
   //   map: map
   // });
+
+  greenMarker = {
+    url: "../static/images/pin1.png",
+    scaledSize: new google.maps.Size(48, 48)
+  };
+
+  redMarker = {
+    url: "../static/images/pin2.png",
+    scaledSize: new google.maps.Size(48, 48)
+  };
+
   addAllIncidents();
 }
 
@@ -140,6 +154,7 @@ function addMarker() {
     position: map.getCenter(),
     draggable: true,
     animation: google.maps.Animation.DROP,
+    icon: greenMarker,
     map: map
   });
 }
@@ -167,6 +182,7 @@ function addIncident(title, description, lng, lat) {
 
   var tmpMarker = new google.maps.Marker({
     position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+    icon: redMarker,
     draggable: true,
     map: map
   });
@@ -175,5 +191,5 @@ function addIncident(title, description, lng, lat) {
     tmpInfo.open(map, tmpMarker);
   });
 
-  incidentMarkers.append(tmpMarker);
+  // incidentMarkers.append(tmpMarker);
 }
