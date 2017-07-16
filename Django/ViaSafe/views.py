@@ -35,15 +35,23 @@ def locationParse(request):
             if(respone.getcode() == 200 and status == 'OK'):
                 lng = data['results'][0]['geometry']['location']['lng']
                 lat = data['results'][0]['geometry']['location']['lat']
-                street = data['results'][0]['formatted_address']
-                city = data['results'][0]['address_components'][2]['long_name']
-                state = data['results'][0]['address_components'][5]['long_name']
-                country = data['results'][0]['address_components'][6]['long_name']
+                # street = data['results'][0]['formatted_address']
+                # city = data['results'][0]['address_components'][2]['long_name']
+                # state = data['results'][0]['address_components'][5]['long_name']
+                # country = data['results'][0]['address_components'][6]['long_name']
 
-                print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
-                      city + ' ' + state + ' ' + country)
+                # print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
+                      # city + ' ' + state + ' ' + country)
+                return HttpResponse(json.dumps({'lng': lng, 'lat': lat}), content_type="application/json")
 
-            return render(request, 'index.html')
+            # Return 400 if it couldn't parse the data
+            context = {
+                'status': '400', 'reason': 'could not find the address'  
+            }
+            response = HttpResponse(json.dumps(context), content_type='application/json')
+            response.status_code = 400
+            return response
+            # return render(request, 'index.html')
 
         # if we get it from the go location
         else:

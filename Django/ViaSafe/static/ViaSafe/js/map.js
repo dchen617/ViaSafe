@@ -149,3 +149,8 @@ function deleteMarker() {
 function getMarker() {
   return marker.getPosition();
 }
+
+function moveMap(lng, lat) {
+  map.setCenter({lat: lat, lng: lng})
+  map.setZoom(12);
+}
