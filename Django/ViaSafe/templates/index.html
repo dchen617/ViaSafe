@@ -19,7 +19,7 @@
     <div id="map"></div>
     <script src="{% static 'ViaSafe/js/map.js' %}"></script>
     <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap&libraries=visualization">
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs3AAMld7-LU0KNMsDZw5--624wOqpzOI&callback=initMap">
     </script>
 
     <div class="screen" id="loginscreen">
@@ -38,7 +38,9 @@
 
     <script>
       function addAllIncidents() {
-        addIncident("title", "description", "-71.589868", "42.332776");
+        {% for a in key %}
+          addIncident(a.title, a.description, a.longitude, a.latitude);
+        {% endfor %}
       }
     </script>
   </body>
