@@ -31,12 +31,12 @@ def locationParse(request):
             address = address.replace(' ', '+')
             ourReq = http + address + key
 
-            respone = urlopen(ourReq)
-            data = json.loads(respone.read().decode('utf8'))
+            response = urlopen(ourReq)
+            data = json.loads(response.read().decode('utf8'))
             status = data['status']
             print(status)
 
-            if(respone.getcode() == 200 and status == 'OK'):
+            if(response.getcode() == 200 and status == 'OK'):
                 lng = data['results'][0]['geometry']['location']['lng']
                 lat = data['results'][0]['geometry']['location']['lat']
                 try:
@@ -71,11 +71,11 @@ def locationParse(request):
             lng = request.POST.get('lng')
             ourReq = http + str(lat) + ',' + str(lng) + key
 
-            respone = urlopen(ourReq)
-            data = json.loads(respone.read().decode('utf8'))
+            response = urlopen(ourReq)
+            data = json.loads(response.read().decode('utf8'))
             status = data['status']
 
-            if(respone.getcode() == 200 and status == 'OK'):
+            if(response.getcode() == 200 and status == 'OK'):
                 lng = data['results'][0]['geometry']['location']['lng']
                 lat = data['results'][0]['geometry']['location']['lat']
 
@@ -109,12 +109,12 @@ def locationParse(request):
                         else:
                             city = Cities.objects.get(stateid=state, cityname=city)
 
-                        locaiton = Locations(title=title, description=description,
+                        location = Locations(title=title, description=description,
                                              longitude=float(lng), latitude=float(lat), address=street, countryid=country,
                                              stateid=state, cityid=city)
 
                         # TODO link ot a userid
-                        locaiotn.save()
+                        location.save()
                     except Exception as e:
                         print(e)
                         return HttpResponse('unable to save location')
@@ -122,7 +122,7 @@ def locationParse(request):
                 except Exception as e:
                     print(e)
 
-                    # print(respone.status_code, file=sys.stderr)
+                    # print(response.status_code, file=sys.stderr)
                 print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
                       city + ' ' + state + ' ' + country)
             else:
