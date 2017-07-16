@@ -76,15 +76,18 @@ def locationParse(request):
 
     return render(request, 'index.html')
 
-
+#send all locations to front end
 @csrf_exempt
 def getAll(request):
-<<<<<<< HEAD
-    c = Countries.objects.all()
-    dictionary = {"c":c}
-    return render(request,'test.html', dictionary)
+    # c = Locations.objects.all()
+    # d2 = {"locations":c}
+    x = 'USA'
+    y = 'Texas'
+    z = 'Dallas'
 
-=======
-    c = Countries.object.all()
-    return render(request,'test.html', c)
->>>>>>> 44c60fff919711be45a98a28db4bd81ad9c8e24d
+    country = Countries.objects.get(countryname = x)
+    state = States.objects.get(statename = y, countryid = country.countryid)
+    city = Cities.objects.get(city = z, stateid = state.stateid)
+    location = locations.objects.get(cityid = city.cityid, stateid = state.stateid, countryid = country.countryid)
+
+    return render(request,'test.html', location)
