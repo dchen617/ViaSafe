@@ -1,6 +1,5 @@
 body {
-    background-color: #363942;
-    color: white;
+    background-color: 224455;
 }
 
 button {
@@ -18,8 +17,6 @@ button {
     opacity: 0.5;
 
     transition: all 0.5s;
-
-    z-index: 1;
 }
 
 button:hover {
@@ -46,66 +43,20 @@ button:active {
     right: 10px;
 }
 
-input, textarea {
+#searchbar {
     position: relative;
     width: 100%;
     font-size: 24px;
+    padding-left: 10px;
     height: 48px;
+    
+    top: -64px;
     transition: all 0.5s;
+    
     color: white;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.1);
     border: 1px solid;
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: #fff;
     border-radius: 8px;
     outline: none;
-    z-index: 1;
-    margin-bottom: 10px;
-    padding-left: 10px;
-}
-
-textarea {
-    resize:none;
-    height: 128px;
-}
-
-
-
-.actionbutton:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-.actionbutton:active {
-    transition: all 0.1s;
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-#searchbar {
-    top: -64px;
-}
-
-#map {
-    transform: scale(1.4);
-    opacity: 0;
-    transition: all 1s;
-
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0px;
-    left: 0px;
-}
-
-.screen {
-    transition: all 0.5s;
-    position: fixed;
-    left: 10px;
-    right: 10px;    
-}
-
-#loginscreen {
-    top: -230px;
-}
-
-#reportscreen {
-    top: -320px;
 }

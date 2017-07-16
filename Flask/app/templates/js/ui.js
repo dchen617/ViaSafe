@@ -1,46 +1,98 @@
 $(document).ready(function(){
-    $(":button").css("top", "10px");
+    $(".navbutton").css("top", "10px");
     $("#map").css("transform", "scale(1)");
     $("#map").css("opacity", "1");
     
     $("#searchbutton").click(function() {
-        $(":button").css("top", "-64px");
+        $(".navbutton").css("top", "-64px");
         $("#searchbar").css("top", "0px");
         $("#searchbar").select();
     });
+
+    $("#markbutton").click(function() {
+        if (false) { // TODO: CHANGE THIS TO CHECK IF LOGGED IN
+            $(".navbutton").css("top", "-64px");
+            $("#loginscreen").css("top", "10px");
+            $("#username").select();
+        } else {
+            $(".navbutton").css("top", "-64px");
+            $("#reportscreen").css("top", "10px");
+            $("#title").select();
+        }
+    });
 });
 
+
+// Functions for handling getting in and out of the various menus
 $(document).on("keyup", "#searchbar", function(e) {
     if (e.which == 13) {
         doSearch();
     }
     if (e.which == 27) {
-        closeSearch();
+        closeAll();
         $("#searchbar").blur();
     }
 });
 
-function closeSearch() {
+$(document).on("keyup", "#username", function(e) {
+    if (e.which == 13) {
+        $("#password").select();
+    }
+    if (e.which == 27) {
+        closeAll();
+        $("#username").blur();
+    }
+});
+
+$(document).on("keyup", "#password", function(e) {
+    if (e.which == 13) {
+        doLogin();
+    }
+    if (e.which == 27) {
+        closeAll();
+        $("#password").blur();
+    }
+});
+
+function closeAll() {
     jQuery(function($) {
-        $(":button").css("top", "10px");
+        $(".navbutton").css("top", "10px");
         $("#searchbar").css("top", "-64px");
+        $("#loginscreen").css("top", "-230px");
+        $("#reportscreen").css("top", "-320px");
+        $(".actionbutton").blur();
     });
 }
 
 function doSearch() {
-    alert($("#searchbar").val())
+    alert($("#searchbar").val());
 }
 
+function doLogin() {
+    alert($("#username").val());
+    closeAll();
+}
+
+function doSubmit() {
+    alert($("#title").val());
+    closeAll();
+}
+
+
+
+// Functions for getting slow animations
 $(document).on("keydown", function(e) {
     if (e.shiftKey == true) {
-        $(":button").css("transition", "all 2.5s");
+        $(".navbutton").css("transition", "all 2.5s");
         $("#searchbar").css("transition", "all 2.5s");
+        $("#loginscreen").css("transition", "all 2.5s");
     }
 });
 
 $(document).on("keyup", function(e) {
     if (e.which == 16) {
-        $(":button").css("transition", "all 0.5s");
+        $(".navbutton").css("transition", "all 0.5s");
         $("#searchbar").css("transition", "all 0.5s");
+        $("#loginscreen").css("transition", "all 0.5s");
     }
 });
