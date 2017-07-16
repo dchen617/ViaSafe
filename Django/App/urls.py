@@ -20,4 +20,5 @@ from ViaSafe import views
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index', views.locationParse),
+    url(r'^test', views.getAll),
 ]
