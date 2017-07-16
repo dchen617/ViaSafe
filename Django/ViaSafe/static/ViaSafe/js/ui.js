@@ -89,7 +89,6 @@ function closeAll() {
 
 function doSearch() {
     data = document.getElementById('searchbar').value
-<<<<<<< HEAD
     $.post("http://127.0.0.1:8000/index",
             {'address' : data, 'area': 'bar'},
             function(data, status){
@@ -97,16 +96,6 @@ function doSearch() {
             }
         );
         console.log(data);
-
-=======
-    console.log(data);
-    $.post("/index",
-            {'address' : data},
-            function(data, status){
-                alert("Data: " + data + "\nStatus: " + status);
-            }
-        )
->>>>>>> 8a6f923c3536a2549784f617128e6cfe56b4aa1f
 
 
 }
