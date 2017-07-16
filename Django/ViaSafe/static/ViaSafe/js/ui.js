@@ -28,7 +28,7 @@ $(document).ready(function(){
             function showPosition(position) {
                 console.log(position.coords.latitude);
                 console.log(position.coords.longitude);
-                $.post("http://127.0.0.1:8000/index",
+                $.post("/index",
                         {'lat' : position.coords.latitude, 'lng': position.coords.longitude},
                         function(data, status){
                             alert("Status: " + status);
@@ -89,15 +89,13 @@ function closeAll() {
 
 function doSearch() {
     data = document.getElementById('searchbar').value
-    $.post("http://127.0.0.1:8000/index",
+    $.post("/index",
             {'address' : data, 'area': 'bar'},
             function(data, status){
-                alert("Status: " + status);
+                moveMap(data.lng, data.lat);
+                closeAll();
             }
         );
-        console.log(data);
-
-
 }
 
 function doLogin() {

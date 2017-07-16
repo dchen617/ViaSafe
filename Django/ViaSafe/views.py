@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.defaulttags import csrf_token
 from django.views.decorators.csrf import csrf_exempt
+from .models import *
 
 # Create your views here.
 import requests
@@ -38,15 +39,27 @@ def locationParse(request):
             if(respone.getcode() == 200 and status == 'OK'):
                 lng = data['results'][0]['geometry']['location']['lng']
                 lat = data['results'][0]['geometry']['location']['lat']
-                street = data['results'][0]['formatted_address']
-                city = data['results'][0]['address_components'][2]['long_name']
-                state = data['results'][0]['address_components'][5]['long_name']
-                country = data['results'][0]['address_components'][6]['long_name']
+                try:
+                    street = data['results'][0]['formatted_address']
+                    city = data['results'][0]['address_components'][2]['long_name']
+                    state = data['results'][0]['address_components'][5]['long_name']
+                    country = data['results'][0]['address_components'][6]['long_name']
 
-                print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
-                      city + ' ' + state + ' ' + country)
+                    # TODO LINK WITH USER AND SAVE IN THE Database
+                except Exception as e:
 
-            return render(request, 'index.html')
+                    # print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
+                    # city + ' ' + state + ' ' + country)
+                return HttpResponse(json.dumps({'lng': lng, 'lat': lat}), content_type="application/json")
+
+            # Return 400 if it couldn't parse the data
+            context = {
+                'status': '400', 'reason': 'could not find the address'
+            }
+            response = HttpResponse(json.dumps(context), content_type='application/json')
+            response.status_code = 400
+            return response
+            # return render(request, 'index.html')
 
         # if we get it from the go location
         else:
@@ -64,10 +77,15 @@ def locationParse(request):
             if(respone.getcode() == 200 and status == 'OK'):
                 lng = data['results'][0]['geometry']['location']['lng']
                 lat = data['results'][0]['geometry']['location']['lat']
-                street = data['results'][0]['formatted_address']
-                city = data['results'][0]['address_components'][2]['long_name']
-                state = data['results'][0]['address_components'][5]['long_name']
-                country = data['results'][0]['address_components'][6]['long_name']
+
+                try:
+                    street = data['results'][0]['formatted_address']
+                    city = data['results'][0]['address_components'][2]['long_name']
+                    state = data['results'][0]['address_components'][5]['long_name']
+                    country = data['results'][0]['address_components'][6]['long_name']
+
+                    # TODO save in the backned
+                except Exception as e
 
                 # print(respone.status_code, file=sys.stderr)
                 print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
@@ -104,6 +122,7 @@ def register(request):
     return HttpResponse('User has been created')
 
 
+@csrf_exempt
 def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -120,3 +139,26 @@ def login(request):
 
         token = user.token
         return HttpResponse(token)
+
+# send all locations to front end
+
+
+@csrf_exempt
+def getAll(request):
+    # c = Locations.objects.all()
+    # d2 = {"locations":c}
+    x = 'USA'
+    y = 'Texas'
+    z = 'Dallas'
+
+    country = Countries.objects.get(countryname=x)
+    state = States.objects.get(statename=y, countryid=country.countryid)
+    city = Cities.objects.get(cityname=z, stateid=state.stateid)
+    location = Locations.objects.get(
+        cityid=city.cityid, stateid=state.stateid, countryid=country.countryid)
+
+    d = {"d": location}
+
+    print(location.title)
+    print(location.description)
+    return render(request, 'test.html', d)
