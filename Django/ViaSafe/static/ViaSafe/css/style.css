@@ -109,3 +109,7 @@ textarea {
 #reportscreen {
     top: -320px;
 }
+
+.description {
+    color: black;
+}
