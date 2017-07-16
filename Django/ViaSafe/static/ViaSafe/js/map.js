@@ -1,10 +1,13 @@
+var Marlborough = {lat: 42.332776, lng: -71.589868};
+var map;
+var marker;
+
 function initMap() {
-  var uluru = {lat: 42.332776, lng: -71.589868};
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     zoom: 7,
     mapTypeControl: false,
     backgroundColor: 'none',
-    center: uluru,
+    center: Marlborough,
     styles: [
   {
     "elementType": "labels.text.fill",
@@ -127,4 +130,22 @@ function initMap() {
   //   position: uluru,
   //   map: map
   // });
+}
+
+function addMarker() {
+  marker = new google.maps.Marker({
+    position: map.getCenter(),
+    draggable: true,
+    animation: google.maps.Animation.DROP,
+    map: map
+  });
+}
+
+function deleteMarker() {
+  marker.setMap(null);
+  marker = null;
+}
+
+function getMarker() {
+  return marker.getPosition();
 }
