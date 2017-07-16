@@ -178,22 +178,19 @@ def login(request):
 # send all locations to front end
 
 
+#send all locations to front end
 @csrf_exempt
 def getAll(request):
     # c = Locations.objects.all()
     # d2 = {"locations":c}
     x = 'USA'
     y = 'Texas'
-    z = 'Dallas'
+    z = 'Houston'
 
-    country = Countries.objects.get(countryname=x)
-    state = States.objects.get(statename=y, countryid=country.countryid)
-    city = Cities.objects.get(cityname=z, stateid=state.stateid)
-    location = Locations.objects.get(
-        cityid=city.cityid, stateid=state.stateid, countryid=country.countryid)
+    country = Countries.objects.get(countryname = x)
+    state = States.objects.get(statename = y, countryid = country.countryid)
+    city = Cities.objects.get(cityname = z, stateid = state.stateid)
+    location = Locations.objects.filter(cityid = city.cityid, stateid = state.stateid, countryid = country.countryid)
+    mydict = {"key":location}
 
-    d = {"d": location}
-
-    print(location.title)
-    print(location.description)
-    return render(request, 'test.html', d)
+    return render(request,'test.html', mydict)

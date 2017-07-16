@@ -4,13 +4,11 @@
 
 <h1>My First Heading</h1>
 <p>My first paragraph.</p>
-<!-- <ul>
-{% for a in c %}
-	<li>{{a.countryname}}</li>
-{% endfor %}
-</ul> -->
 
-<h1>{{location.title}}</h1>
-{{location.description}}
+{% for a in key %}
+    <p>{{a.title}}</p>
+    <p>{{a.description}}</p>
+{% endfor %}
+
 </body>
 </html>
