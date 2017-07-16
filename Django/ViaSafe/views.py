@@ -115,7 +115,6 @@ def locationParse(request):
                         city = Cities.objects.get(stateid=state, cityname=city)
 
                         # TODO link ot a userid
-                        location.save()
                 except Exception as e:
                     print(e)
                     return HttpResponse('error')
