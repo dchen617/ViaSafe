@@ -105,8 +105,16 @@ function doLogin() {
 }
 
 function doSubmit() {
-    alert($("#title").val());
-    alert(getMarker());
+    markerLocation = getMarker();
+
+    $.post("/index",
+            {'title': $("#title").val(), 'description': $("#description").val(),
+            'lat': markerLocation.lat(), 'lng': markerLocation.lng()},
+            function (data, status) {
+                alert(status);
+            }
+        );
+
     closeAll();
 }
 
