@@ -10,7 +10,7 @@ $(document).ready(function(){
     });
 
     $("#markbutton").click(function() {
-        if (false) { // TODO: CHANGE THIS TO CHECK IF LOGGED IN
+        if (true) { // TODO: CHANGE THIS TO CHECK IF LOGGED IN
             $(".navbutton").css("top", "-64px");
             $("#loginscreen").css("top", "10px");
             $("#username").select();
@@ -103,6 +103,12 @@ function doSearch() {
 
 function doLogin() {
     alert($("#username").val());
+    $.post("/login",
+            {'username': $("#username").val(), 'password': $("#password").val()},
+            function (data, status) {
+                alert(data, status);
+            }
+        );
     closeAll();
 }
 
