@@ -51,8 +51,7 @@ def locationParse(request):
 
                     # print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
                     # city + ' ' + state + ' ' + country)
-                return HttpResponse(json.dumps({'lng': lng, 'lat': lat}), content_type="application/json")
-
+                return getAll(request, lng, lat)
             # Return 400 if it couldn't parse the data
             context = {
                 'status': '400', 'reason': 'could not find the address'
@@ -180,17 +179,27 @@ def login(request):
 
 #send all locations to front end
 @csrf_exempt
-def getAll(request):
+def getAll(request, lng, lat):
     # c = Locations.objects.all()
     # d2 = {"locations":c}
-    x = 'USA'
-    y = 'Texas'
-    z = 'Houston'
+    # x = 'USA'
+    # y = 'Texas'
+    # z = 'Houston'
 
-    country = Countries.objects.get(countryname = x)
-    state = States.objects.get(statename = y, countryid = country.countryid)
-    city = Cities.objects.get(cityname = z, stateid = state.stateid)
-    location = Locations.objects.filter(cityid = city.cityid, stateid = state.stateid, countryid = country.countryid)
-    mydict = {"key":location}
+    # country = Countries.objects.get(countryname = x)
+    # state = States.objects.get(statename = y, countryid = country.countryid)
+    # city = Cities.objects.get(cityname = z, stateid = state.stateid)
+    # location = Locations.objects.filter(cityid = city.cityid, stateid = state.stateid, countryid = country.countryid)
+    # mydict = {"key":location}
+    location = Locations.objects.all()
+    markers = []
 
-    return render(request,'test.html', mydict)
+    for place in location:
+        thing = {'lat': str(place.latitude), 'lng': str(place.longitude), 'title': str(place.title), 'description': str(place.description)}
+        markers.append(thing)
+
+    markers = json.dumps(markers, ensure_ascii=False)
+
+    return HttpResponse(markers, content_type="application/json")
+
+    #return render(request,'test.html', mydict)
