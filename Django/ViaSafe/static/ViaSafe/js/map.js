@@ -2,6 +2,8 @@ var Marlborough = {lat: 42.332776, lng: -71.589868};
 var map;
 var marker;
 
+var incidentMarkers = [];
+
 function initMap() {
   map = new google.maps.Map(document.getElementById('map'), {
     zoom: 7,
@@ -130,6 +132,7 @@ function initMap() {
   //   position: uluru,
   //   map: map
   // });
+  addAllIncidents();
 }
 
 function addMarker() {
@@ -153,4 +156,24 @@ function getMarker() {
 function moveMap(lng, lat, zoom) {
   map.setCenter({lat: lat, lng: lng})
   map.setZoom(zoom);
+}
+
+function addIncident(title, description, lng, lat) {
+  var tmpContent = "<div class='description'><h1>" + title + "</h1><p>" + description + "</p></div>";
+
+  var tmpInfo = new google.maps.InfoWindow({
+    content: tmpContent
+  });
+
+  var tmpMarker = new google.maps.Marker({
+    position: {lat: parseFloat(lat), lng: parseFloat(lng)},
+    draggable: true,
+    map: map
+  });
+
+  tmpMarker.addListener('click', function() {
+    tmpInfo.open(map, tmpMarker);
+  });
+
+  incidentMarkers.append(tmpMarker);
 }
