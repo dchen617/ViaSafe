@@ -2,7 +2,7 @@ $(document).ready(function(){
     $(".navbutton").css("top", "10px");
     $("#map").css("transform", "scale(1)");
     $("#map").css("opacity", "1");
-    
+
     $("#searchbutton").click(function() {
         $(".navbutton").css("top", "-64px");
         $("#searchbar").css("top", "0px");
@@ -67,7 +67,16 @@ function closeAll() {
 }
 
 function doSearch() {
-    alert($("#searchbar").val());
+    data = document.getElementById('searchbar').value
+    console.log(data);
+    // $.post("http://127.0.0.1:8000/index",
+    //         {'address' : data},
+    //         function(data, status){
+    //             alert("Data: " + data + "\nStatus: " + status);
+    //         }
+    //     )
+
+
 }
 
 function doLogin() {
