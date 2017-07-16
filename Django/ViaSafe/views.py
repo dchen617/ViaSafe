@@ -193,4 +193,4 @@ def getAll(request):
     location = Locations.objects.filter(cityid = city.cityid, stateid = state.stateid, countryid = country.countryid)
     mydict = {"key":location}
 
-    return render(request,'test.html', mydict)
+    return render(request,'index.html', mydict)
