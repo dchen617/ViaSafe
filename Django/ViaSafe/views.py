@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template.defaulttags import csrf_token
 from django.views.decorators.csrf import csrf_exempt
+from .models import *
 
 # Create your views here.
 import requests
@@ -77,6 +78,8 @@ def locationParse(request):
 
 
 @csrf_exempt
-def getAll():
-    c = Countries.object.all()
-    return render(request,'test.html', c)
+def getAll(request):
+    c = Countries.objects.all()
+    dictionary = {"c":c}
+    return render(request,'test.html', dictionary)
+
