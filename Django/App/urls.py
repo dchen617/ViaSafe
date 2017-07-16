@@ -15,9 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from ViaSafe import views
+from ViaSafe import views, register
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index', views.locationParse),
+    url(r'^register', views.register),
 ]

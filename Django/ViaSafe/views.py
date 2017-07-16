@@ -8,7 +8,11 @@ import requests
 import logging
 import json
 import sys
+import os
+import binascii
+import re
 from urllib.request import urlopen
+from .models import Users  # TODO make use custom DJ one day
 
 
 #@app.route("/test", methods=['POST', 'GET'])
@@ -65,7 +69,7 @@ def locationParse(request):
                 state = data['results'][0]['address_components'][5]['long_name']
                 country = data['results'][0]['address_components'][6]['long_name']
 
-                #print(respone.status_code, file=sys.stderr)
+                # print(respone.status_code, file=sys.stderr)
                 print(str(lng) + ' ' + str(lat) + ' ' + street + ' ' +
                       city + ' ' + state + ' ' + country)
             else:
@@ -74,3 +78,45 @@ def locationParse(request):
         return render(request, 'index.html')
 
     return render(request, 'index.html')
+
+
+@csrf_exempt
+def register(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        passW = request.POST.get('pass')
+        email = request.POST.get('email')
+        token = binascii.b2a_hex(os.urandom(15))
+
+        print(username + passW + email)
+
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            return HttpResponse('Email is not vaild')
+
+        if(all((username, passW, email))):
+            if(Users.objects.filter(username=username).exists()):
+                return HttpResponse('That username already exist, please enter another one]')
+            elif(Users.objects.filter(email=email).exists()):
+                return HttpResponse('The email already exist, plese enter another one')
+            user = Users(username=username, passwordhash=passW, email=email, token=token)
+            user.save()
+
+    return HttpResponse('User has been created')
+
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        email = request.POST.get('email')
+
+        try:
+            user = Users.objects.get(username=username, passwordhash=password)
+        except ():
+            try:
+                user = Users.objects.get(email=email, passwordhash=password)
+            except Exception as e:
+                return HttpResponse('Please give vaild login information')
+
+        token = user.token
+        return HttpResponse(token)
