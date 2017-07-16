@@ -194,6 +194,7 @@ function moveMap(lng, lat, zoom) {
 
 function addIncident(title, description, lng, lat) {
   var tmpContent = "<div class='description'><h1>" + title + "</h1><p>" + description + "</p></div>";
+  console.log("hi" + lng + lat);
 
   var tmpInfo = new google.maps.InfoWindow({
     content: tmpContent

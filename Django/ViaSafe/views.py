@@ -90,8 +90,6 @@ def locationParse(request):
                 country = locationlist[2]
                 state = locationlist[1]
                 city = locationlist[0]
-                locationlist.append(lng)
-                locationlist.append(lat)
                 try:
                     if(not Countries.objects.filter(countryname=country).exists()):
                         countryObj = Countries(countryname=country)
@@ -120,6 +118,8 @@ def locationParse(request):
                     return HttpResponse('error')
 
                 print(locationlist)
+                print(locationlist)
+                sendlocation(request, lng, lat)
                 return getAll(request, locationlist)
 
             # Return 400 if it couldn't parse the data
@@ -247,6 +247,10 @@ def login(request):
 # send all locations to front end
 
 
+def sendlocation(request, lng, lat):
+    return HttpResponse(json.dumps({"lng": lng, "lat": lat}), content_type="application/json")
+
+
 @csrf_exempt
 def getAll(request, locationlist):
     # c = Locations.objects.all()
@@ -254,16 +258,13 @@ def getAll(request, locationlist):
     x = locationlist[2]
     y = locationlist[1]
     z = locationlist[0]
-
+    print(locationlist)
     country = Countries.objects.get(countryname=x)
     state = States.objects.get(statename=y, countryid=country.countryid)
     city = Cities.objects.get(cityname=z, stateid=state.stateid)
     location = Locations.objects.filter(
         cityid=city.cityid, stateid=state.stateid, countryid=country.countryid)
-    movemap = json.dumps({'lng': locationlist[3], 'lat': locationlist[4]})
-    mydict = {"key": location, "movemap": movemap}
-
-    print(locationlist)
+    mydict = {"key": location}
     print(location)
 
     return render(request, 'index.html', mydict)
