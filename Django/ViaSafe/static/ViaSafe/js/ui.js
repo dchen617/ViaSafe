@@ -19,6 +19,7 @@ $(document).ready(function(){
             $("#reportscreen").css("top", "10px");
             $("#title").select();
             function getLocation() {
+                addMarker();
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(showPosition);
                 } else {
@@ -33,6 +34,7 @@ $(document).ready(function(){
                         function(data, status){
                             // alert("Status: " + status);
                             moveMap(position.coords.longitude, position.coords.latitude, 15);
+                            deleteMarker();
                             addMarker();
                         }
                     );
