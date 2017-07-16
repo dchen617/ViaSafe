@@ -103,6 +103,12 @@ function doSearch() {
 
 function doLogin() {
     alert($("#username").val());
+    $.post("/login",
+            {'username': $("#username").val(), 'password': $("#password").val()},
+            function (data, status) {
+                alert(data, status);
+            }
+        );
     closeAll();
 }
 
