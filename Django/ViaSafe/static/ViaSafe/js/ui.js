@@ -31,12 +31,13 @@ $(document).ready(function(){
                 $.post("/index",
                         {'lat' : position.coords.latitude, 'lng': position.coords.longitude},
                         function(data, status){
-                            alert("Status: " + status);
+                            // alert("Status: " + status);
+                            moveMap(position.coords.longitude, position.coords.latitude, 15);
+                            addMarker();
                         }
                     );
             }
             getLocation();
-            addMarker();
         }
     });
 });
@@ -92,7 +93,7 @@ function doSearch() {
     $.post("/index",
             {'address' : data, 'area': 'bar'},
             function(data, status){
-                moveMap(data.lng, data.lat);
+                moveMap(data.lng, data.lat, 12);
                 closeAll();
             }
         );
