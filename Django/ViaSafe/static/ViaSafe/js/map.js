@@ -150,7 +150,7 @@ function getMarker() {
   return marker.getPosition();
 }
 
-function moveMap(lng, lat) {
+function moveMap(lng, lat, zoom) {
   map.setCenter({lat: lat, lng: lng})
-  map.setZoom(12);
+  map.setZoom(zoom);
 }
